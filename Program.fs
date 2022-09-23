@@ -1,6 +1,5 @@
-﻿//4.3.1
-printfn "Hello World!!!"
+﻿let g n = n + 5 // int -> int
 
-//4.3.2
-printfn "%f" (2.1 + 3.2 *(float (8/4) + 3.2))
+let gg = fun n -> n + 5
 
+let h (x,y) = System.Math.Sqrt(x*x + y*y)
