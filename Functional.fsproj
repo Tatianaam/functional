@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="third.fs" />
     <Compile Include="Program.fs" />
-    <Compile Include="second.fs" />
   </ItemGroup>
 </Project>
