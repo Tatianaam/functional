@@ -37,8 +37,8 @@ let compose4curried =
 
 
 let curry f = fun (x: int) -> (fun (y: int) ->( f(x, y): int))
+let uncurry g = fun(x, y) -> f g
 
-let uncurry g = fun (x: int) -> (fun (y: int) -> (g(x, y):int))
 
 // let curry f =
 //     fun (x: int) ->
