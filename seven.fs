@@ -10,3 +10,5 @@ let rec help3(f, n) = if f n = 0 then n else help3(f, n+1)
 let rec min f =
     let n = 1
     if f n = 0 then n else help3(f, n+1)
+
+    
