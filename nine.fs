@@ -16,10 +16,13 @@ let (.-.) x y = x .+. negative y
 let negTwo (a, b) = (-a, -b)
 let divTwo (a, b) = (a/(a*a+b*b), -b/(a*a+b*b))
 
-let (.+) x y = fun ((a,b), (c,d))->  (a + c, b + d)
+let add ((a,b), (c,d)) = (a + c, b + d)
+let mult ((a,b), (c,d))  = (a*c - b*d, b*c + a*d)
 
-let (.-) x y = x .+ negTwo y
+let (.+) x y = add (x, y)
 
-let (.*) x y =  fun ((a,b), (c,d))->  (a*c - b*d, b*c + a*d)
+let (.-) x y = add(x, negTwo y)
 
-let (./) x y = x .* divTwo y
+let (.*) x y =  mult(x, y)
+
+let (./) x y = mult(x, divTwo y)
