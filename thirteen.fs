@@ -8,9 +8,7 @@ let rec help nums even =
 let rec rmodd nums = help nums true 
 
 // 39.2
-let isUnEven (i, _) = i % 2 <> 0
-
-let rec del_even nums = nums |> List.indexed |> List.filter isUnEven |> List.map (fun (i, n) -> n)
+let rec del_even nums = nums |> List.filter (fun x -> x % 2 <> 0)
 
 // 39.3
 let rec multiplicity x xs = 
