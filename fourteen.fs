@@ -106,4 +106,3 @@ let rec revrev outs  =
     | [] -> []
     | head :: tail -> revrev tail @ [rev head]
 
-s
