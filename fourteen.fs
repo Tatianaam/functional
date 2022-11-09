@@ -1,7 +1,6 @@
 //40.1. Напишите функцию sum(p, xs), 
 //где p -- предикат int -> bool, и xs -- список целых. 
 //Функция возвращает сумму тех элементов xs, для которых предикат истинен.
-
 // 40.1
 let rec sum (p, xs) = 
     match xs with   
@@ -22,10 +21,13 @@ let rec count (xs, n) =
 
 //40.2.2. Напишите функцию insert: int list * int -> int list, которая добавляет новый элемент в список.
 // 40.2.2
-let rec insert (xs, n) =
+let rec insert (xs: int list, n) =
+    if xs.Head >= n then n :: xs else
     match xs with
-    |[] -> [n]
-    |list -> list @ [n] 
+    | head :: tail when tail.IsEmpty -> head :: [n]
+    | head :: next :: tail when n <= next -> head :: n :: next :: tail
+    | head :: tail -> head :: insert (tail, n)
+
 
 //40.2.3. Напишите функцию intersect: int list * int list -> int list,
 // которая находит общие элементы в обоих списках, включая повторяющиеся.
@@ -36,6 +38,7 @@ let rec intersect (xs1: 'a list, xs2: 'a list) =
     | head :: tail when head = xs2.Head -> [head] @ intersect(tail, xs2.Tail)
     | head :: tail when head < xs2.Head -> intersect(tail, xs2)
     | head :: tail -> intersect(xs1, xs2.Tail)
+
 
 //40.2.4. Напишите функцию plus: int list * int list -> int list, 
 //которая формирует список, объединяющий все элементы входных списков, включая повторяющиеся.
@@ -75,10 +78,32 @@ let rec smallest (elms: int list) =
 //которая удаляет из списка первое вхождение заданного элемента (если он имеется).
 // 40.3.2
 let rec delete (n, xs) =
+    match xs with
+    | [] -> xs
+    | head :: tail when xs.Head = n -> tail 
+    | head :: next:: tail when next = n -> head :: tail
+    | head :: tail -> head :: delete(n, tail)
+
+//40.3.3. Напишите функцию сортировки с использованием предыдущих функций, 
+//которая сортирует входной список так, что на выходе получается слабо восходящий список.
+// 40.3.3
+let rec sort elms =
+    match elms with
+    | [] -> []
+    | elms -> smallest elms :: sort(delete(smallest elms, elms))
 
 
-let l1 = [0;0;7;1;2;9;123;3;6;8;9;-9;9]
-let l2= [0;3;3;9]
-let f x = x % 2 = 0
-let a = smallest(l1)
-printfn "%A" a 
+//40.4. Напишите функцию revrev, которая получает на вход список списков,
+// и перевёртывает как порядок вложенных списков, так и порядок элементов внутри каждого вложенного списка.
+//revrev [[1;2];[3;4;5]] = [[5;4;3];[2;1]]
+// 40.4
+let rec revrev outs  =
+    let rec rev ins =
+        match ins with
+        | [] -> []
+        | head :: tail -> rev tail @ [head]
+    match outs with
+    | [] -> []
+    | head :: tail -> revrev tail @ [rev head]
+
+s
