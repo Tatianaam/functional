@@ -69,12 +69,13 @@ let rec minus (xs1: int list, xs2: int list) =
 //которая возвращает наименьший элемент непустого списка
 // 40.3.1
 let rec smallest (elms: int list) =
+    if elms.IsEmpty then None else
     let rec help (min : int, elms : int list) =
         match elms with
         | [] -> min
         | head :: tail when head < min -> help(head, tail)
         | _ -> help(min, elms.Tail)
-    help(elms.Head, elms)
+    Some(help(elms.Head, elms))
 
 //40.3.2. Напишите функцию delete: int * int list -> int list, 
 //которая удаляет из списка первое вхождение заданного элемента (если он имеется).
@@ -92,7 +93,7 @@ let rec delete (n: int, xs: int list) =
 let rec sort elms =
     match elms with
     | [] -> []
-    | elms -> smallest elms :: sort(delete(smallest elms, elms))
+    | elms -> (smallest elms).Value :: sort(delete((smallest elms).Value, elms))
 
 
 //40.4. Напишите функцию revrev, которая получает на вход список списков,
