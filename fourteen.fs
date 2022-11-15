@@ -1,41 +1,42 @@
 //40.1. Напишите функцию sum(p, xs), 
 //где p -- предикат int -> bool, и xs -- список целых. 
 //Функция возвращает сумму тех элементов xs, для которых предикат истинен.
+
 // 40.1
-let rec sum (p, xs) = 
+let rec sum (p, xs: int list) = 
     match xs with   
     | [] -> 0
     | head :: tail when p head -> head + sum (p, tail)
     | head :: tail -> sum (p, tail)
 
+
 //40.2. Список [x1; x2; ...; xn] называется слабо восходящим, если его элементы удовлетворяют требованию
 // x1 <= x2 <= ... <= xn
 //Напишите функцию count: int list * int -> int, которая подсчитывает количество вхождений числа в список.
+
 // 40.2.1
 let rec count (xs: int list, n: int) =
     match xs with
     | [] -> 0
     | head :: tail when head = n -> 1 + count(tail, n)
-    | head :: tail when head < n -> 0
     | head :: tail -> count(tail, n)
 
 
 //40.2.2. Напишите функцию insert: int list * int -> int list, которая добавляет новый элемент в список.
 // 40.2.2
 let rec insert (xs: int list, n: int) =
-    if xs.Head >= n then n :: xs else
-    match xs with
-    | head :: tail when tail.IsEmpty -> head :: [n]
-    | head :: next :: tail when n <= next -> head :: n :: next :: tail
-    | head :: tail -> head :: insert (tail, n)
+    if xs.IsEmpty then [n]
+    elif xs.Head >= n then n :: xs
+    else xs.Head :: insert (xs.Tail, n)
 
 
 //40.2.3. Напишите функцию intersect: int list * int list -> int list,
 // которая находит общие элементы в обоих списках, включая повторяющиеся.
 // 40.2.3
-let rec intersect (xs1: 'int list, xs2: 'int list) =
+let rec intersect (xs1: int list, xs2: int list) =
     match xs1 with 
-    | _ when xs2.IsEmpty || xs1.IsEmpty -> []
+    | [] -> []
+    | _ when xs2.IsEmpty -> []
     | head :: tail when head = xs2.Head -> [head] @ intersect(tail, xs2.Tail)
     | head :: tail when head < xs2.Head -> intersect(tail, xs2)
     | head :: tail -> intersect(xs1, xs2.Tail)
@@ -43,8 +44,8 @@ let rec intersect (xs1: 'int list, xs2: 'int list) =
 
 //40.2.4. Напишите функцию plus: int list * int list -> int list, 
 //которая формирует список, объединяющий все элементы входных списков, включая повторяющиеся.
-// 40.2.4
-let rec plus (xs1: 'int list, xs2: 'int list) = 
+//// 40.2.4
+let rec plus (xs1: int list, xs2: int list) = 
     match xs1 with 
     | _ when xs2.IsEmpty -> xs1
     | _ when xs1.IsEmpty -> xs2
@@ -56,7 +57,7 @@ let rec plus (xs1: 'int list, xs2: 'int list) =
 //которая возвращает список, содержащий элементы первого списка
 // за исключением элементов второго списка (элементы, одинаковые по значению, считаются разными).
 // 40.2.5
-let rec minus (xs1: 'int list, xs2: 'int list) =
+let rec minus (xs1: int list, xs2: int list) =
     match xs1 with
     | [] -> []
     | _ when xs2.IsEmpty -> xs1
@@ -68,12 +69,13 @@ let rec minus (xs1: 'int list, xs2: 'int list) =
 //которая возвращает наименьший элемент непустого списка
 // 40.3.1
 let rec smallest (elms: int list) =
+    if elms.IsEmpty then None else
     let rec help (min : int, elms : int list) =
         match elms with
         | [] -> min
         | head :: tail when head < min -> help(head, tail)
         | _ -> help(min, elms.Tail)
-    help(elms.Head, elms)
+    Some(help(elms.Head, elms))
 
 //40.3.2. Напишите функцию delete: int * int list -> int list, 
 //которая удаляет из списка первое вхождение заданного элемента (если он имеется).
@@ -91,7 +93,7 @@ let rec delete (n: int, xs: int list) =
 let rec sort elms =
     match elms with
     | [] -> []
-    | elms -> smallest elms :: sort(delete(smallest elms, elms))
+    | elms -> (smallest elms).Value :: sort(delete((smallest elms).Value, elms))
 
 
 //40.4. Напишите функцию revrev, которая получает на вход список списков,
