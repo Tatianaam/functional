@@ -5,27 +5,26 @@
 // Шаблон для отправки на сервер:
 
 // 42.3
-let rec allSubsets n k =  
-    if k = 1 then Set.ofList [ for i in 1 .. n -> Set.ofList [i] ]
-    else Set.fold(fun cur (prev: Set<int>) -> cur.Add(prev.Add(n))) Set.empty (allSubsets (n-1) (k-1))
 
-//    if k = 1 then Set.ofList [ for i in 1 .. n -> Set.ofList [i] ]
-//    else 
-//        let temp = (allSubsets (n-1) (k-1))
-//        let additional = List.fold(fun cur prev -> cur.Add()) Set.empty temp
-//        Set.fold(fun cur (prev: Set<int>) -> cur.Add(prev.Add(n))) Set.empty temp
+let iterateReplace (s: Set<int>, k : int) =
+ [for x in s -> Set.ofList (k :: (List.filter (fun y -> y <> x) (Set.toList s)))]
 
 
-let r = allSubsets 5 3
-printfn"%A" r
+let rec addSubsets =  function 
+    | (n : int, k : int, sets: Set<int> list) when n = k -> 
+        let lst: Set<int> list = List.Empty
+        List.fold(fun acc cur-> acc @ iterateReplace(cur, k)) sets sets
+    | (n: int, k: int, sets: Set<int> list) -> 
+        let lst = List.fold(fun acc cur -> acc @ iterateReplace(cur, k)) [] sets
+        sets @ lst @ addSubsets(n, k+1, lst)
 
-// let n = 5
-// let t = Set.ofList [ for i in 1 .. n -> Set.ofList [i] ]
-// printfn"%A" t
-// let s = Set.ofList [123]
-// printfn"%A" s
-// let t1 = t.Add(s)
-// printfn"%A" t1
 
-// let t2 = Set.fold(fun (cur: Set<Set<int>>) (prev: Set<int>) -> cur.Add(prev.Add(n))) Set.empty t1
-// printfn"%A" t2
+let rec allSubsets n k = 
+    if n = 0 || k = 0 then Set.empty
+    elif n = k then Set.empty.Add(Set.ofList [ for i in 1 .. n -> i ])
+    elif k = 1 then
+        let lst = [ for i in 1 .. n -> Set.ofList [i] ]
+        Set.ofList lst
+    else 
+        let temp = Set.ofList [ for i in 1 .. k -> i ]
+        Set.ofList(addSubsets(n, k+1, temp :: List.Empty)).Add(temp)
