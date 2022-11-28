@@ -1,10 +1,10 @@
 // 47.4.1
 let f n =
     let x = ref (n-1)
-    let mutable res = n
+    let mutable res: int = n
     while x.Value > 0 do
         res <- res * x.Value
-        x := x.Value - 1
+        x.Value <- x.Value - 1
     res
 
 
