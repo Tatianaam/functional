@@ -1,11 +1,10 @@
-//Напишите функцию факториала f: int -> int, не используя рекурсию, с помощью императивных возможностей
 // 47.4.1
-let f n : int =
+let f n =
     let x = ref (n-1)
     let mutable res = n
-    while !x > 0 do
-        res <- res * !x
-        x := !x - 1
+    while x.Value > 0 do
+        res <- res * x.Value
+        x := x.Value - 1
     res
 
 
