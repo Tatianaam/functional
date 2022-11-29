@@ -11,9 +11,12 @@ let f n =
 // 47.4.2
 let fibo n = 
     if n < 2 then n else
-        let arr = [|0 .. n|]
-        let mutable i = 2
-        while i <= n do
-            arr.[i] <- arr[i-2] + arr[i-1]
-            i <- i + 1
-        arr.[n]
+        let mutable first = 0
+        let mutable second = 1
+        let mutable count = 2
+        while count <= n do
+            let next = first + second
+            first <- second
+            second <- next
+            count <- count + 1
+        second
