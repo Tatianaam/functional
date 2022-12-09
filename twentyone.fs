@@ -5,16 +5,15 @@ let rec fact = function
     | 1 -> 1
     | n -> n * fact (n-1)
 
-let fac_seq n = seq {
-    for i in 1..n do yield fact i
+let fac_seq = seq {
+    for i in 1..10 do yield fact i
 }
 
 
 //Определите последовательность 0, -1, 1, -2, 2, -3, 3, ...
 // 50.2.2
-let seq_seq n = seq {
+let seq_seq = seq {
     yield 0
-    for i in 1..n do 
+    for i in 1..10 do 
     yield! seq [-i; i]
 }
-
