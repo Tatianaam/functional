@@ -2,7 +2,7 @@
 // 50.2.1
 
 let rec fact = function
-    | 1 -> 1
+    | 0 -> 1
     | n -> n * fact (n-1)
 
 let fac_seq = seq {
