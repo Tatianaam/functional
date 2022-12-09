@@ -6,7 +6,7 @@ let rec fact = function
     | n -> n * fact (n-1)
 
 let fac_seq = seq {
-    for i in 1..10 do yield fact i
+    for i in 0..10 do yield fact i
 }
 
 
